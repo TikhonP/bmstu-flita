@@ -77,7 +77,6 @@ void releaseIntSet(intSet *i) {
     }
 }
 
-
 void printIntSet(intSet *i) {
     printf("<");
     while (i!=NULL) {
@@ -91,51 +90,97 @@ void printIntSet(intSet *i) {
     printf(">\n");
 }
 
-
-void test(void) {
-    puts("Creating with 1.");
-    intSet *intset = defineIntSet(1);
-    printIntSet(intset);
+int convertDecrimalToBinary(int value, int *output) {
+    int a[100], i;
     
-    puts("Inserting 2.");
-    insert(2, intset);
-    printIntSet(intset);
+    for (i = 0; value > 0; i++) {
+        a[i] = value % 2;
+        value = value / 2;
+    }
     
-    puts("Inserting 3.");
-    insert(3, intset);
-    printIntSet(intset);
+    int j = 0;
+    for (i = i - 1; i >= 0; i--) {
+        output[j] = a[i];
+        j++;
+    }
     
-    puts("Inserting 4.");
-    insert(4, intset);
-    printIntSet(intset);
-    
-    puts("Trying to again insert 3.");
-    printIntSet(intset);
-    insert(3, intset);
-    
-    puts("Removing 2.");
-    intset = removeValueFromIntSet(2, intset);
-    printIntSet(intset);
-    
-    puts("Removing 4.");
-    intset = removeValueFromIntSet(4, intset);
-    printIntSet(intset);
-    
-    puts("Removing 1.");
-    intset = removeValueFromIntSet(1, intset);
-    printIntSet(intset);
-    
-    puts("Trying to remove 5.");
-    intset = removeValueFromIntSet(5, intset);
-    printIntSet(intset);
-    
-    puts("Releasing set.");
-    releaseIntSet(intset);
+    return j; // return lenth of binary string
 }
 
+void printBinaryArray(int *array, int lenth) {
+    for (int i = 0; i < lenth; i++) {
+        printf("%d", array[i]);
+    }
+}
+
+void printBoolSet(intSet * i){
+    printf("<");
+    while (i!=NULL) {
+        int binary[100];
+        int lenth = convertDecrimalToBinary(i->value, binary);
+        printBinaryArray(binary, lenth);
+        
+        if (i->next != NULL) {
+            printf(", ");
+        }
+        i = i->next;
+    }
+    printf(">\n");
+}
 
 int main(int argc, const char * argv[]) {
-    test();
-    
+    intSet *intset = NULL;
+    char ch;
+    int n;
+    while (1) {
+        printf("> ");
+        ch = getchar();
+        
+        switch (ch) {
+            case 'i':
+                scanf("%d", &n);
+                if (intset == NULL) {
+                    intset = defineIntSet(n);
+                    puts("Created set.");
+                } else {
+                    insert(n, intset);
+                }
+                break;
+            case 'r':
+                scanf("%d", &n);
+                if (intset == NULL)
+                    puts("Add something first, set is empty.");
+                else
+                    intset = removeValueFromIntSet(n, intset);
+                break;
+            case 'p':
+                printIntSet(intset);
+                break;
+            case 'q':
+                releaseIntSet(intset);
+                goto exit_loop;
+                break;
+            case 'b':
+                printBoolSet(intset);
+                break;
+            case 'h':
+                puts(
+                     "Usage: ./ex1\n\n"
+                     "Commands:\n"
+                     "i - insert value to set\n"
+                     "r - remove value from set\n"
+                     "p - print array\n"
+                     "q - exit\n"
+                     "b - print array of converted boolean values\n"
+                     "h - print this help message\n"
+                     );
+                break;
+            default:
+                puts("Unknown command. Type 'h' for help.");
+                break;
+        }
+        getchar();
+    }
+    exit_loop: ;
     return 0;
 }

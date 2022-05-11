@@ -7,6 +7,14 @@
 - Перевод чисел из десятичной системы счисления в двоичную
 - Вывод элементов обоих множеств
 
-Для решения первой задачи реализован связный список, исключающий повторения элементов множества. Файл: `ex1.c`
+```
+Usage: ./ex1
 
-Перевод системы счисления реализован в файле `ex2.c`
+Commands:
+i - insert value to set
+r - remove value from set
+p - print array
+q - exit
+b - print array of converted boolean values
+h - print this help message
+```
