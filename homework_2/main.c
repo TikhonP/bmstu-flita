@@ -129,13 +129,8 @@ int main(int argc, char * argv[]) {
     struct Graph* graph = createAGraph(countNodes(argv[1]));
     
     captureGraph(graph, argv[1]);
-    
-    printGraph(graph);
-    
     const char * output_config_filename = "dot.config";
-    
     drawGraph(graph, output_config_filename);
-    
     destroyGraph(graph);
     
     system("dot dot.config -Tpng -o out.png");
