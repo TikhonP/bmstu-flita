@@ -6,7 +6,6 @@ struct node {
     int vertex;
     struct node * next;
 };
-struct node * createNode(int);
 
 struct Graph {
     int numVertices;

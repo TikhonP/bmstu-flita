@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <stdbool.h>
 
 typedef struct IntSet {
     int value;
@@ -62,7 +62,7 @@ intSet *removeValueFromIntSet(int value, intSet *i) {
     if (previous!=NULL) {
         previous->next = i->next;
     } else {
-        outIntSet = i->next; //  if it is one element set there would bug
+        outIntSet = i->next;
     }
     free(i);
     
@@ -104,7 +104,7 @@ int convertDecrimalToBinary(int value, int *output) {
         j++;
     }
     
-    return j; // return lenth of binary string
+    return j;
 }
 
 void printBinaryArray(int *array, int lenth) {
@@ -128,11 +128,13 @@ void printBoolSet(intSet * i){
     printf(">\n");
 }
 
-int main(int argc, const char * argv[]) {
+int main(void) {
     intSet *intset = NULL;
     char ch;
     int n;
-    while (1) {
+    bool exit_loop = false;
+    
+    while (!exit_loop) {
         printf("> ");
         ch = getchar();
         
@@ -158,7 +160,7 @@ int main(int argc, const char * argv[]) {
                 break;
             case 'q':
                 releaseIntSet(intset);
-                goto exit_loop;
+                exit_loop = true;
                 break;
             case 'b':
                 printBoolSet(intset);
@@ -181,6 +183,5 @@ int main(int argc, const char * argv[]) {
         }
         getchar();
     }
-    exit_loop: ;
     return 0;
 }
